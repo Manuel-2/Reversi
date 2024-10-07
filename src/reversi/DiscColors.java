@@ -1,6 +1,6 @@
 package reversi;
 
-public enum DiscColors {
+enum DiscColors {
 	black,
 	white
 }

@@ -1,6 +1,6 @@
 package reversi;
 
-public class GameBoard {
+class GameBoard {
 	public final int boardXWidth, boardYHeight;
 	private final Disc boardGrid[][];
 
@@ -18,7 +18,7 @@ public class GameBoard {
 			throw new IllegalArgumentException(
 					"This method is to insert a new disc only, if you want to modify a disc use the getDiscMethod that returns a reference to the disc and then edit it's properties");
 		}
-		if(disc == null) {
+		if (disc == null) {
 			throw new IllegalArgumentException("You can't insert a null pointer to the Disc boardGrid");
 		}
 		this.boardGrid[x][y] = disc;
@@ -32,7 +32,7 @@ public class GameBoard {
 			throw new IllegalArgumentException(
 					"This method is to insert a new disc only, if you want to modify a disc use the getDiscMethod that returns a reference to the disc and then edit it's properties");
 		}
-		if(disc == null) {
+		if (disc == null) {
 			throw new IllegalArgumentException("You can't insert a null pointer to the Disc boardGrid");
 		}
 		this.boardGrid[position.x()][position.y()] = disc;
@@ -41,7 +41,7 @@ public class GameBoard {
 
 	public Disc getDiscAtPosition(int x, int y) {
 		if (isPositionOutsideBoardGrid(x, y)) {
-			throw new IndexOutOfBoundsException("Out of bounds position, can't write outside of the boardGrid");
+			throw new IndexOutOfBoundsException("Out of bounds position");
 		}
 		return boardGrid[x][y];
 	}
@@ -49,8 +49,8 @@ public class GameBoard {
 	public Disc getDiscAtPosition(Position2D position) {
 		int x = position.x();
 		int y = position.y();
-		if (x >= boardXWidth || x < 0 || y >= boardYHeight || y < 0) {
-			return null;
+		if (isPositionOutsideBoardGrid(position)) {
+			throw new IndexOutOfBoundsException("Out of bounds position");
 		}
 		return boardGrid[x][y];
 	}
