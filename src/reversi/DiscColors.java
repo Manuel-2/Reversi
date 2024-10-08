@@ -1,6 +1,10 @@
 package reversi;
 
-enum DiscColors {
+public enum DiscColors {
 	black,
-	white
+	white;
+	
+	public static DiscColors invert(DiscColors color) {
+		return color == DiscColors.black? DiscColors.white:DiscColors.black;
+	}
 }
