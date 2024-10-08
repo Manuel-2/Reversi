@@ -9,31 +9,48 @@ public class Reversi {
 	int whiteDiscCount, blackDiscCount;
 	ArrayList<Disc> placedWhiteDiscs;
 	ArrayList<Disc> placedBlackDiscs;
+	boolean gameOver;
 
-	public Reversi(int boardXWidth, int boardYHeight) {
-		this.gameBoard = new GameBoard(boardXWidth, boardYHeight);
+	public Reversi() {
+		// TODO: GameBoard puts the 4 discs at the center
+		this.gameBoard = new GameBoard(8, 8);
 		activePlayerTurnColor = DiscColors.black;
-
-		// find the center and put the 4 discs
-		// handle odd numbers
+		gameOver = false;
 	}
-
+	
 	public MoveStatus playerPutADisc(int x, int y) {
 		boolean isAPossibleMove = false;
 		Position2D playerNewDiscPosition = new Position2D(x, y);
+
+		DiscColors enemyColor = DiscColors.invert(activePlayerTurnColor);
+
+		// main case
 		activePlayerPosibleMoves = getPosibleMoves(activePlayerTurnColor);
-		if (!gameBoard.isPositionOutsideBoardGrid(playerNewDiscPosition)) {
-			for (MovementTrace trace : activePlayerPosibleMoves) {
-				if (trace.finish.equals(playerNewDiscPosition)) {
-					isAPossibleMove = true;
-					for (Disc enemyDisc : trace.discTrace) {
-						enemyDisc.color = enemyDisc.color == DiscColors.black ? DiscColors.white : DiscColors.black;
-					}
+		for (MovementTrace trace : activePlayerPosibleMoves) {
+			if (trace.finish.equals(playerNewDiscPosition)) {
+				isAPossibleMove = true;
+				for (Disc enemyDisc : trace.discTrace) {
+					enemyDisc.color = activePlayerTurnColor;
 				}
 			}
 		}
-		activePlayerTurnColor = activePlayerTurnColor == DiscColors.black ? DiscColors.white : DiscColors.black;
-		return new MoveStatus(isAPossibleMove, gameBoard);
+
+		if (isAPossibleMove) {
+			ArrayList<MovementTrace> enemyPlayerPossibleMoves = getPosibleMoves(enemyColor);
+			if(enemyPlayerPossibleMoves.size() == 0) {
+				activePlayerPosibleMoves = getPosibleMoves(activePlayerTurnColor);
+				if(activePlayerPosibleMoves.size() == 0) {
+					this.gameOver = true;
+				}else {
+					activePlayerTurnColor = DiscColors.invert(activePlayerTurnColor);
+				}
+			}else {
+				activePlayerTurnColor = enemyColor;				
+			}
+			
+		}
+
+		return new MoveStatus(isAPossibleMove, gameBoard, activePlayerTurnColor, this.gameOver);
 	}
 
 	public ArrayList<MovementTrace> getPosibleMoves(DiscColors playerColor) {
@@ -83,45 +100,32 @@ public class Reversi {
 		int iterationY = startPosition.y() + yIncrement;
 		Position2D iterationDiscPosition = new Position2D(iterationX, iterationY);
 		// starts as the adjacent disc of the startPostion
-		Disc iterationDisc = gameBoard.getDiscAtPosition(iterationDiscPosition);
 
-		while (true) {
-			if (iterationDisc == null) {
-				if (previusIterationDisc.color != playerColor) {
-					posibleMove.setFinish(iterationDiscPosition);
+		if (gameBoard.isPositionInsideBoardGrid(iterationDiscPosition)) {
+			Disc iterationDisc = gameBoard.getDiscAtPosition(iterationDiscPosition);
+			while (true) {
+				if (iterationDisc == null) {
+					if (previusIterationDisc.color != playerColor) {
+						posibleMove.setFinish(iterationDiscPosition);
+						return posibleMove;
+					}
 					break;
+				} else if (iterationDisc.color == playerColor) {
+					// Discards the move as possible or legal, and stops
+					posibleMove = null;
+					return posibleMove;
 				}
-				break;
-			} else if (iterationDisc.color == playerColor) {
-				// Discards the move as possible or legal, and stops
-				posibleMove = null;
-				break;
-			}
 
-			posibleMove.discTrace.add(iterationDisc);
-			previusIterationDisc = iterationDisc;
-			iterationX = iterationX + xIncrement;
-			iterationY = iterationY + yIncrement;
-			iterationDiscPosition = new Position2D(iterationX, iterationY);
-			iterationDisc = gameBoard.getDiscAtPosition(iterationDiscPosition);
+				posibleMove.discTrace.add(iterationDisc);
+				previusIterationDisc = iterationDisc;
+				iterationX = iterationX + xIncrement;
+				iterationY = iterationY + yIncrement;
+				iterationDiscPosition = new Position2D(iterationX, iterationY);
+				iterationDisc = gameBoard.getDiscAtPosition(iterationDiscPosition);
+			}
 		}
 
-		return posibleMove;
+		return null;
 	}
 
-	public static void main(String[] args) {
-		// usage example
-		// Reversi game = new Reversi(8, 8);
-
-		// making moves, the interaction methods deduces which player made the move,
-		// checks if is legal, make the move update the state
-		// and return a response with the information
-		// MoveStatus response = game.playerMove(1,5);
-		// if(response.wasALegalMove) {
-		// response.boardGridCurrentState; // Disc matrix array
-		// update the display
-		// }
-
-		// Position2D avaibleMoves[] = game.getPosibleMoves();
-	}
 }
