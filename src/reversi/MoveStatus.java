@@ -7,6 +7,8 @@ package reversi;
 public class MoveStatus {
 	final public boolean wasALegalMove;
 	final public Disc boardGridCurrentState[][];
+	final public DiscColors nextTurn;
+	final public boolean gameIsOver;
 
 	/**
 	 * 
@@ -14,13 +16,15 @@ public class MoveStatus {
 	 * @param board    a reference to the GameBoard, it copies the values in case it
 	 *                 was a legal move
 	 */
-	public MoveStatus(boolean wasLegal, GameBoard board) {
+	public MoveStatus(boolean wasLegal, GameBoard board, DiscColors nextTurn,boolean gameIsOver) {
 		this.wasALegalMove = wasLegal;
+		this.gameIsOver = gameIsOver;
 		if (wasLegal) {
 			this.boardGridCurrentState = copyGameBoardGrid(board);
 		} else {
 			this.boardGridCurrentState = null;
 		}
+		this.nextTurn = nextTurn;
 	}
 
 	/**
