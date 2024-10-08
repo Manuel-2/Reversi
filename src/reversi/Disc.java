@@ -1,6 +1,6 @@
 package reversi;
 
-class Disc {
+public class Disc {
 	DiscColors color;
 	public final Position2D position;
 

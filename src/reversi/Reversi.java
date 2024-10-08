@@ -18,6 +18,10 @@ public class Reversi {
 		gameOver = false;
 	}
 	
+	public Disc[][] getGameBoardGridCurrentState() {
+		return ReversiUtils.copyGameBoardGrid(gameBoard);
+	}
+	
 	public MoveStatus playerPutADisc(int x, int y) {
 		boolean isAPossibleMove = false;
 		Position2D playerNewDiscPosition = new Position2D(x, y);

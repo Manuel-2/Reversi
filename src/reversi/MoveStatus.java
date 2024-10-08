@@ -20,7 +20,7 @@ public class MoveStatus {
 		this.wasALegalMove = wasLegal;
 		this.gameIsOver = gameIsOver;
 		if (wasLegal) {
-			this.boardGridCurrentState = copyGameBoardGrid(board);
+			this.boardGridCurrentState = ReversiUtils.copyGameBoardGrid(board);
 		} else {
 			this.boardGridCurrentState = null;
 		}
@@ -35,17 +35,5 @@ public class MoveStatus {
 	 * @return Disc[][] a 2d Disc array that contains a copy off the original stored
 	 *         in gameBoard
 	 */
-	private Disc[][] copyGameBoardGrid(GameBoard gameBoard) {
-		int width = gameBoard.boardXWidth;
-		int height = gameBoard.boardYHeight;
-		Disc[][] copy = new Disc[width][height];
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				Disc value = new Disc(gameBoard.getDiscAtPosition(x, y));
-				copy[x][y] = value;
-			}
-		}
-
-		return copy;
-	}
+	
 }
