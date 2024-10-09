@@ -7,8 +7,12 @@ class ReversiUtils {
 		Disc[][] copy = new Disc[width][height];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				Disc value = new Disc(gameBoard.getDiscAtPosition(x, y));
-				copy[x][y] = value;
+				if(gameBoard.getDiscAtPosition(x, y) != null) {
+					Disc value = new Disc(gameBoard.getDiscAtPosition(x, y));
+					copy[x][y] = value;
+				}else {
+					copy[x][y] = null;
+				}
 			}
 		}
 

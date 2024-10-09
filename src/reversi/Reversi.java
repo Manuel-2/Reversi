@@ -7,8 +7,7 @@ public class Reversi {
 	DiscColors activePlayerTurnColor;
 	ArrayList<MovementTrace> activePlayerPosibleMoves;
 	int whiteDiscCount, blackDiscCount;
-	ArrayList<Disc> placedWhiteDiscs;
-	ArrayList<Disc> placedBlackDiscs;
+
 	boolean gameOver;
 
 	public Reversi() {
@@ -17,11 +16,11 @@ public class Reversi {
 		activePlayerTurnColor = DiscColors.black;
 		gameOver = false;
 	}
-	
+
 	public Disc[][] getGameBoardGridCurrentState() {
 		return ReversiUtils.copyGameBoardGrid(gameBoard);
 	}
-	
+
 	public MoveStatus playerPutADisc(int x, int y) {
 		boolean isAPossibleMove = false;
 		Position2D playerNewDiscPosition = new Position2D(x, y);
@@ -29,42 +28,64 @@ public class Reversi {
 		DiscColors enemyColor = DiscColors.invert(activePlayerTurnColor);
 
 		// main case
-		activePlayerPosibleMoves = getPosibleMoves(activePlayerTurnColor);
+		activePlayerPosibleMoves = calculatePosibleMoves(activePlayerTurnColor);
 		for (MovementTrace trace : activePlayerPosibleMoves) {
 			if (trace.finish.equals(playerNewDiscPosition)) {
-				isAPossibleMove = true;
+				if (!isAPossibleMove) {
+					isAPossibleMove = true;
+					gameBoard.insertNewDisc(new Disc(activePlayerTurnColor, trace.finish), trace.finish);
+				}
 				for (Disc enemyDisc : trace.discTrace) {
 					enemyDisc.color = activePlayerTurnColor;
+					if(enemyColor == DiscColors.white) {
+						gameBoard.placedWhiteDiscs.remove(enemyDisc);
+						gameBoard.placedBlackDiscs.add(enemyDisc);
+					}else if(enemyColor == DiscColors.black) {
+						gameBoard.placedBlackDiscs.remove(enemyDisc);
+						gameBoard.placedWhiteDiscs.add(enemyDisc);
+					}
+					
 				}
 			}
 		}
 
 		if (isAPossibleMove) {
-			ArrayList<MovementTrace> enemyPlayerPossibleMoves = getPosibleMoves(enemyColor);
-			if(enemyPlayerPossibleMoves.size() == 0) {
-				activePlayerPosibleMoves = getPosibleMoves(activePlayerTurnColor);
-				if(activePlayerPosibleMoves.size() == 0) {
+			ArrayList<MovementTrace> enemyPlayerPossibleMoves = calculatePosibleMoves(enemyColor);
+			if (enemyPlayerPossibleMoves.size() == 0) {
+				activePlayerPosibleMoves = calculatePosibleMoves(activePlayerTurnColor);
+				if (activePlayerPosibleMoves.size() == 0) {
 					this.gameOver = true;
-				}else {
+				} else {
 					activePlayerTurnColor = DiscColors.invert(activePlayerTurnColor);
 				}
-			}else {
-				activePlayerTurnColor = enemyColor;				
+			} else {
+				activePlayerTurnColor = enemyColor;
 			}
-			
-		}
 
+		}
+		
+		this.blackDiscCount = gameBoard.placedBlackDiscs.size();
+		this.whiteDiscCount = gameBoard.placedWhiteDiscs.size();
 		return new MoveStatus(isAPossibleMove, gameBoard, activePlayerTurnColor, this.gameOver);
 	}
 
-	public ArrayList<MovementTrace> getPosibleMoves(DiscColors playerColor) {
+	public Position2D[] getPosibleMoves() {
+		ArrayList<MovementTrace> posibleMoves = calculatePosibleMoves(this.activePlayerTurnColor);
+		Position2D userResult[] = new Position2D[posibleMoves.size()];
+		for (int i = 0; i < posibleMoves.size(); i++) {
+			userResult[i] = posibleMoves.get(i).finish;
+		}
+		return userResult;
+	}
+
+	private ArrayList<MovementTrace> calculatePosibleMoves(DiscColors playerColor) {
 		ArrayList<MovementTrace> posibleMoves = new ArrayList<MovementTrace>();
 
 		ArrayList<Disc> activePlayerDiscs = null;
 		if (playerColor == DiscColors.black) {
-			activePlayerDiscs = placedBlackDiscs;
+			activePlayerDiscs = gameBoard.placedBlackDiscs;
 		} else if (playerColor == DiscColors.white) {
-			activePlayerDiscs = placedWhiteDiscs;
+			activePlayerDiscs = gameBoard.placedWhiteDiscs;
 		}
 
 		for (Disc placedDisc : activePlayerDiscs) {

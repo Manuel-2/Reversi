@@ -1,3 +1,3 @@
 package reversi;
 
-record Position2D(int x, int y) {}
+public record Position2D(int x, int y) {}

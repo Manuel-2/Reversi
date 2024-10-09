@@ -1,8 +1,13 @@
 package reversi;
 
+import java.util.ArrayList;
+
 class GameBoard {
 	public final int boardXWidth, boardYHeight;
 	private final Disc boardGrid[][];
+	
+	public final ArrayList<Disc> placedWhiteDiscs;
+	public final ArrayList<Disc> placedBlackDiscs;
 
 	public GameBoard(int boardXWidth, int boardYHeight) {
 		if(boardXWidth%2 != 0 && boardYHeight%2 != 0) {
@@ -11,15 +16,19 @@ class GameBoard {
 		
 		this.boardXWidth = boardXWidth;
 		this.boardYHeight = boardYHeight;
-		boardGrid = new Disc[boardXWidth-1][boardYHeight-1];
+		boardGrid = new Disc[boardXWidth][boardYHeight];
+		
+		placedWhiteDiscs = new ArrayList<Disc>();
+		placedBlackDiscs = new ArrayList<Disc>();
 		
 		DiscColors color = DiscColors.white;
 		for (int x = boardXWidth / 2 - 1; x < boardXWidth / 2 + 1; x++) {
-			for (int y = boardYHeight / 2 - 1; y < boardYHeight; y++) {
+			for (int y = boardYHeight / 2 - 1; y < boardYHeight / 2 + 1; y++) {
 				Position2D position = new Position2D(x, y);
 				this.insertNewDisc(new Disc(color,position), position);
 				color = DiscColors.invert(color);
 			}
+			color = DiscColors.invert(color);
 		}
 	}
 
@@ -35,6 +44,11 @@ class GameBoard {
 			throw new IllegalArgumentException("You can't insert a null pointer to the Disc boardGrid");
 		}
 		this.boardGrid[x][y] = disc;
+		if(disc.color == DiscColors.black) {
+			placedBlackDiscs.add(disc);
+		}else if(disc.color == DiscColors.white) {
+			placedWhiteDiscs.add(disc);
+		}
 	}
 
 	public void insertNewDisc(Disc disc, Position2D position) {
@@ -49,23 +63,22 @@ class GameBoard {
 			throw new IllegalArgumentException("You can't insert a null pointer to the Disc boardGrid");
 		}
 		this.boardGrid[position.x()][position.y()] = disc;
-
+		if(disc.color == DiscColors.black) {
+			placedBlackDiscs.add(disc);
+		}else if(disc.color == DiscColors.white) {
+			placedWhiteDiscs.add(disc);
+		}
 	}
 
 	public Disc getDiscAtPosition(int x, int y) {
 		if (isPositionOutsideBoardGrid(x, y)) {
-			throw new IndexOutOfBoundsException("Out of bounds position");
+			return null;
 		}
 		return boardGrid[x][y];
 	}
 
 	public Disc getDiscAtPosition(Position2D position) {
-		int x = position.x();
-		int y = position.y();
-		if (isPositionOutsideBoardGrid(position)) {
-			throw new IndexOutOfBoundsException("Out of bounds position");
-		}
-		return boardGrid[x][y];
+		return getDiscAtPosition(position.x(), position.y());
 	}
 
 	public boolean isPositionOutsideBoardGrid(int x, int y) {
