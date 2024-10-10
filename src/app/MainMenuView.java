@@ -2,20 +2,17 @@ package app;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Menu;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.EventListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class MainMenuView extends JPanel implements ActionListener {
+public class MainMenuView extends View {
 	public MainMenuView() {
-		setBackground(App.BackgroundColor);
-		setLayout(null);
+		//setBackground(App.BackgroundColor);
+		//setLayout(null);
 		
 		JLabel title = new JLabel("Reversi");
 		title.setFont(SourceManager.appFont.deriveFont(50f));
