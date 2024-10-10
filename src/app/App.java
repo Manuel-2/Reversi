@@ -26,10 +26,11 @@ public class App extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(805, 892);
 
-		new MainMenuView("mainMenu");
+		new MainMenuView("MainMenu");
+		new MultiView("Multi");
 	
 
-		setView("mainMenu");
+		setView("MainMenu");
 		setVisible(true);
 	}
 	
@@ -45,12 +46,15 @@ public class App extends JFrame {
 		if (currentView != null) {
 			remove(currentView);
 		}
+		
 		currentView = loadedViews.get(viewName);
 		if (currentView == null) {
 			System.err.println("WARNING: viewName: \""+ viewName + "\" not found returning to mainMenu");
-			add(loadedViews.get("mainMenu"));
+			add(loadedViews.get("MainMenu"));
 		} else {
 			add(currentView);
+			revalidate();
+			repaint();
 		}
 	}
 }

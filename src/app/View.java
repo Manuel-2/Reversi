@@ -11,9 +11,9 @@ public abstract class View extends JPanel implements ActionListener {
 	
 	public View(String name) {
 		setBackground(App.BackgroundColor);
-		viewName = name;	
 		setLayout(null);
 		App.sharedInstance.registerView(this,name);
+		viewName = name;	
 	}
 
 	@Override
