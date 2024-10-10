@@ -15,8 +15,9 @@ public class App extends JFrame {
 	private Map<String, View> loadedViews = new HashMap<String, View>();
 	private View currentView;
 
-	public App(){
+	GameConfigurations currentGameConfiguration;
 
+	public App() {
 		if (sharedInstance == null) {
 			sharedInstance = this;
 		}
@@ -26,18 +27,32 @@ public class App extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(805, 892);
 
+		// register the views
 		new MainMenuView("MainMenu");
 		new MultiView("Multi");
-	
+		new SelectCharacterView("SelectCharacter");
 
+		// show the main Menu
 		setView("MainMenu");
 		setVisible(true);
 	}
-	
-	public void registerView(View view,String name) {
+
+	public void startGame(GameConfigurations gameConfig) {
+		switch (gameConfig) {
+		case local: {
+			currentGameConfiguration = gameConfig;
+			setView("SelectCharacter");
+			break;
+		}
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + gameConfig);
+		}
+	}
+
+	public void registerView(View view, String name) {
 		View view2Register = loadedViews.get(name);
-		if(view2Register != null) {
-			throw new IllegalArgumentException("ERROR: A view with the name: " + name +", alreadyExits");
+		if (view2Register != null) {
+			throw new IllegalArgumentException("ERROR: A view with the name: " + name + ", alreadyExits");
 		}
 		loadedViews.put(name, view);
 	}
@@ -46,15 +61,20 @@ public class App extends JFrame {
 		if (currentView != null) {
 			remove(currentView);
 		}
-		
+
 		currentView = loadedViews.get(viewName);
 		if (currentView == null) {
-			System.err.println("WARNING: viewName: \""+ viewName + "\" not found returning to mainMenu");
+			System.err.println("WARNING: viewName: \"" + viewName + "\" not found returning to mainMenu");
 			add(loadedViews.get("MainMenu"));
 		} else {
+			currentView.before();
 			add(currentView);
 			revalidate();
 			repaint();
 		}
+	}
+
+	public GameConfigurations getCurrentGameConfiguration() {
+		return App.sharedInstance.currentGameConfiguration;
 	}
 }

@@ -13,4 +13,10 @@ public class SoloView extends View {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void before() {
+		// TODO Auto-generated method stub
+		
+	}
 }

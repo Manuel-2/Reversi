@@ -17,7 +17,7 @@ public class MainMenuView extends View {
 		title.setFont(SourceManager.appFont.deriveFont(50f));
 		title.setBounds(60, 48, 750, 50);
 		title.setForeground(Color.white);
-		add(title,BorderLayout.NORTH);
+		add(title);
 		
 		JPanel menuButtonsContainer = new JPanel();
 		menuButtonsContainer.setBounds(50, 200, 300, 600);
@@ -43,5 +43,11 @@ public class MainMenuView extends View {
 		MenuButton button = (MenuButton)e.getSource();
 		String targetView = button.getActionCommand();
 		App.sharedInstance.setView(targetView);
+	}
+
+	@Override
+	public void before() {
+		// TODO Auto-generated method stub
+		
 	}
 }
