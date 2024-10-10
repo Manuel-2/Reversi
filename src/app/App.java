@@ -3,6 +3,11 @@ package app;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import app.views.MainMenuView;
+import app.views.MultiView;
+import app.views.SelectCharacterView;
+import app.views.View;
+
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;

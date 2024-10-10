@@ -1,6 +1,5 @@
-package app;
+package app.components;
 
-import java.awt.LayoutManager;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
@@ -8,18 +7,20 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.*;
+
 public class SquaredButton extends JPanel {
 
 	int buttonSize = 91;
 	int iconSize = 51;
-	
+
 	final JButton buttonComponent;
 
 	public SquaredButton(ImageIcon icon, String actionCommand, ActionListener actionListener) {
 		setLayout(null);
 		setOpaque(false);
 		setSize(91, 91);
-		
+
 		JLabel backgroundLabel = new JLabel(SourceManager.getSpriteImage("SquareButton"));
 		backgroundLabel.setBounds(getVisibleRect());
 		add(backgroundLabel);
@@ -35,7 +36,7 @@ public class SquaredButton extends JPanel {
 		buttonComponent = button;
 		add(button);
 	}
-	
+
 	public void disableButton() {
 		buttonComponent.setEnabled(false);
 	}

@@ -1,8 +1,5 @@
 package app;
 
 public enum GameConfigurations {
-	solo,
-	local,
-	host,
-	join,
+	solo, local, host, join,
 }

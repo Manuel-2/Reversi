@@ -1,4 +1,4 @@
-package app;
+package app.views;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -15,6 +15,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import app.SourceManager;
+import app.components.MenuButton;
+import app.components.SquaredButton;
+import app.GameConfigurations;
+
 public class SelectCharacterView extends View {
 
 	final String charactersNames[] = new String[] { "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White",
@@ -23,10 +28,9 @@ public class SelectCharacterView extends View {
 	String player1CharacterName, player2CharacterName;
 	JLabel player1SelectedCharacterLabel, player2SelectedCharacterLabel;
 	Boolean player1Ready, player2Ready;
-	
+
 	JPanel characterGrid;
 	Map<String, SquaredButton> charactersButtons = new HashMap<String, SquaredButton>();
-	
 
 	GameConfigurations gameConfig;
 
@@ -37,7 +41,7 @@ public class SelectCharacterView extends View {
 
 	public SelectCharacterView(String name) {
 		super(name);
-		
+
 		setOpaque(true);
 		player1Ready = false;
 		player2Ready = false;

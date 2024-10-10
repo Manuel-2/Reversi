@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 public class SourceManager {
 	public static SourceManager sharedInstance;
 	protected Map<String, Image> sprites;
-	public static Font appFont; 
+	public static Font appFont;
 
 	public SourceManager(String sourceFolderPath) {
 		if (sharedInstance == null) {
@@ -32,20 +32,19 @@ public class SourceManager {
 
 				if (assetsFilesArray != null) {
 					for (File assetFile : assetsFilesArray) {
-						if(assetFile.getName().endsWith(".png")) {
+						if (assetFile.getName().endsWith(".png")) {
 							if (assetFile != null) {
 								String spriteName = assetFile.getName().split("\\.")[0];
 								Image spriteImage = ImageIO.read(assetFile);
 								sharedInstance.sprites.put(spriteName, spriteImage);
 							}
-						}
-						else if(assetFile.getName().endsWith(".ttf")) {
-							if(sharedInstance.appFont == null) {
+						} else if (assetFile.getName().endsWith(".ttf")) {
+							if (sharedInstance.appFont == null) {
 								sharedInstance.appFont = Font.createFont(Font.TRUETYPE_FONT, assetFile).deriveFont(24f);
-							}else {
+							} else {
 								System.err.println("Warn: Why 2 fonts???");
 							}
-							
+
 						}
 					}
 				}

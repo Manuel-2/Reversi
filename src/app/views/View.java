@@ -1,4 +1,4 @@
-package app;
+package app.views;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import app.App;
+import app.components.MenuButton;
 
 public abstract class View extends JPanel implements ActionListener {
 
