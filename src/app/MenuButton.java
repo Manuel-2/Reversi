@@ -8,6 +8,7 @@ import javax.swing.SwingConstants;
 public class MenuButton extends JButton {
 
 	MenuButton(String label){
+		setActionCommand(label);
 		setText(label);
 		setVerticalTextPosition(SwingConstants.TOP);
 		setHorizontalTextPosition(SwingConstants.CENTER);
