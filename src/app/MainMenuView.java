@@ -10,9 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MainMenuView extends View {
-	public MainMenuView() {
-		//setBackground(App.BackgroundColor);
-		//setLayout(null);
+	public MainMenuView(String viewName) {
+		super(viewName);
 		
 		JLabel title = new JLabel("Reversi");
 		title.setFont(SourceManager.appFont.deriveFont(50f));

@@ -12,8 +12,8 @@ public class App extends JFrame {
 
 	public static final Color BackgroundColor = Color.decode("#060606");
 
-	private Map<String, JPanel> loadedViews = new HashMap<String, JPanel>();
-	private JPanel currentView;
+	private Map<String, View> loadedViews = new HashMap<String, View>();
+	private View currentView;
 
 	public App(){
 
@@ -26,11 +26,19 @@ public class App extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(805, 892);
 
-		MainMenuView mainMenu = new MainMenuView();
-		loadedViews.put("mainMenu", mainMenu);
+		new MainMenuView("mainMenu");
+	
 
 		setView("mainMenu");
 		setVisible(true);
+	}
+	
+	public void registerView(View view,String name) {
+		View view2Register = loadedViews.get(name);
+		if(view2Register != null) {
+			throw new IllegalArgumentException("ERROR: A view with the name: " + name +", alreadyExits");
+		}
+		loadedViews.put(name, view);
 	}
 
 	public void setView(String viewName) {
@@ -39,7 +47,7 @@ public class App extends JFrame {
 		}
 		currentView = loadedViews.get(viewName);
 		if (currentView == null) {
-			System.err.println("WARNING: view Name not found returning to mainMenu");
+			System.err.println("WARNING: viewName: \""+ viewName + "\" not found returning to mainMenu");
 			add(loadedViews.get("mainMenu"));
 		} else {
 			add(currentView);
