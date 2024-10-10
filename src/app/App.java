@@ -1,5 +1,7 @@
 package app;
 
+import java.util.Stack;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -21,6 +23,8 @@ public class App extends JFrame {
 	private View currentView;
 
 	GameConfigurations currentGameConfiguration;
+	
+	Stack<String> viewStack;
 
 	public App() {
 		if (sharedInstance == null) {
@@ -32,11 +36,15 @@ public class App extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(805, 892);
 
+		
+		viewStack = new Stack<String>();
+		
 		// register the views
 		new MainMenuView("MainMenu");
 		new MultiView("Multi");
 		new SelectCharacterView("SelectCharacter");
 
+		
 		// show the main Menu
 		setView("MainMenu");
 		setVisible(true);
@@ -66,16 +74,28 @@ public class App extends JFrame {
 		if (currentView != null) {
 			remove(currentView);
 		}
-
 		currentView = loadedViews.get(viewName);
 		if (currentView == null) {
 			System.err.println("WARNING: viewName: \"" + viewName + "\" not found returning to mainMenu");
 			add(loadedViews.get("MainMenu"));
+			viewStack.clear();
+			viewStack.add("MainMenu");
 		} else {
+			viewStack.add(viewName);
 			currentView.before();
 			add(currentView);
 			revalidate();
 			repaint();
+		}
+	}
+
+	public void returnPreviusView() {
+		//MainMenu is the root view
+		if(currentView.getName() != "MainMenu") {
+			// the current view is at the top, so we get rid of it
+			viewStack.pop();
+			String actualPreviusViewName = viewStack.peek();
+			setView(actualPreviusViewName);
 		}
 	}
 
