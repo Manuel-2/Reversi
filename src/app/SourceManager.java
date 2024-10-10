@@ -1,5 +1,6 @@
 package app;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 public class SourceManager {
 	public static SourceManager sharedInstance;
 	protected Map<String, Image> sprites;
+	public static Font appFont; 
 
 	public SourceManager(String sourceFolderPath) {
 		if (sharedInstance == null) {
@@ -19,23 +21,31 @@ public class SourceManager {
 		}
 
 		sharedInstance.sprites = new HashMap<String, Image>();
-		
+
 		// load up all the game Sprites in the specified folder
 		File sourceFolder = new File(sourceFolderPath);
-	
+
 		if (sourceFolder.exists() && sourceFolder.isDirectory()) {
-			
+
 			try {
-				File[] spriteFilesArray = sourceFolder.listFiles((dir, name) -> {
-					return name.endsWith(".png");
-				});
-					
-				if(spriteFilesArray != null) {
-					for(File spriteFile : spriteFilesArray) {
-						if(spriteFile != null) {
-							String spriteName = spriteFile.getName().split("\\.")[0];
-							Image spriteImage = ImageIO.read(spriteFile);
-							sharedInstance.sprites.put(spriteName, spriteImage);
+				File[] assetsFilesArray = sourceFolder.listFiles();
+
+				if (assetsFilesArray != null) {
+					for (File assetFile : assetsFilesArray) {
+						if(assetFile.getName().endsWith(".png")) {
+							if (assetFile != null) {
+								String spriteName = assetFile.getName().split("\\.")[0];
+								Image spriteImage = ImageIO.read(assetFile);
+								sharedInstance.sprites.put(spriteName, spriteImage);
+							}
+						}
+						else if(assetFile.getName().endsWith(".ttf")) {
+							if(sharedInstance.appFont == null) {
+								sharedInstance.appFont = Font.createFont(Font.TRUETYPE_FONT, assetFile).deriveFont(24f);
+							}else {
+								System.err.println("Warn: Why 2 fonts???");
+							}
+							
 						}
 					}
 				}
@@ -45,9 +55,9 @@ public class SourceManager {
 		}
 	}
 
-	public ImageIcon getSpriteImage(String spriteName){
+	public static ImageIcon getSpriteImage(String spriteName) {
 		Image img = sharedInstance.sprites.get(spriteName);
-		if(img == null) {
+		if (img == null) {
 			img = sharedInstance.sprites.get("NotFound");
 		}
 		return new ImageIcon(img);

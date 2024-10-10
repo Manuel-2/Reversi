@@ -16,7 +16,7 @@ public class App extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setTitle("Reversi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(750, 750);
+		setSize(805, 892);
 		
 		MainMenuView mainMenu = new MainMenuView();
 		add(mainMenu);
