@@ -24,13 +24,7 @@ public class ScoreDisplay extends JPanel {
 	JPanel scoreColorBar;
 	JLabel scoreColorBarPoints[];
 
-	boolean inGame;
-
-	// this component is only instaciated when the program enters the game view so,
-	// the configuration exists for sure
 	public ScoreDisplay() {
-		inGame = false;
-
 		scoreColorBarPoints = new JLabel[64];
 
 		setLayout(new FlowLayout());
@@ -50,14 +44,13 @@ public class ScoreDisplay extends JPanel {
 		scoreColorBar.setOpaque(false);
 
 		for (int i = 0; i < 64; i++) {
-			JLabel barPoint = new JLabel(" ");
+			JLabel barPoint = new JLabel();
 			Dimension labelSize = new Dimension(40, 7);
 			barPoint.setPreferredSize(labelSize);
 			barPoint.setMinimumSize(labelSize);
 			barPoint.setMaximumSize(labelSize);
 			barPoint.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-
-			// scoreColorBar.add(Box.createRigidArea(new Dimension(0, 0)));
+			
 			scoreColorBar.add(barPoint);
 			scoreColorBarPoints[i] = barPoint;
 		}
