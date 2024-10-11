@@ -130,7 +130,14 @@ public class GameView extends View {
 		if (posibleMoves != null) {
 			for (Position2D posibleMove : posibleMoves) {
 				GameBoardButton button = boardButtons[posibleMove.x()][posibleMove.y()];
-				button.setIcon(SourceManager.getSpriteImage("Circle"));
+				// TODO:set a circle based on the color
+				ImageIcon circleColored = SourceManager.getSpriteImage("null");
+				if(player1Turn) {
+					circleColored = SourceManager.getSpriteImage("Circle" + gameConfig.getPlayer1CharacterName());
+				}else {
+					circleColored = SourceManager.getSpriteImage("Circle" + gameConfig.getPlayer2CharacterName());
+				}
+				button.setIcon(circleColored);
 			}
 		}
 	}
