@@ -35,6 +35,9 @@ public class SelectCharacterView extends View {
 	Map<String, SquaredButton> charactersButtons = new HashMap<String, SquaredButton>();
 
 	GameModes gameConfig;
+	
+	MenuButton select;
+	MenuButton start;
 
 	@Override
 	public void before() {
@@ -50,6 +53,11 @@ public class SelectCharacterView extends View {
 		player2SelectedCharacterLabel.setIcon(null);
 		player1Ready = false;
 		player2Ready = false;
+		
+		remove(select);
+		remove(start);
+		revalidate();
+		repaint();
 
 		// TODO: check the game configuration if it is solo,change the p2 label's text
 		// to say CPU
@@ -91,15 +99,15 @@ public class SelectCharacterView extends View {
 		
 		add(characterGrid);
 
-		MenuButton select = new MenuButton("Select");
+		select = new MenuButton("Select");
 		select.setBounds(60, 700, select.getSize().width, select.getSize().height);
 		select.addActionListener(this);
-		add(select);
+		
 
-		MenuButton start = new MenuButton("Start");
+		start = new MenuButton("Start");
 		start.setBounds(486, 700, start.getSize().width, start.getSize().height);
 		start.addActionListener(this);
-		add(start);
+		
 	}
 
 	@Override
@@ -107,6 +115,9 @@ public class SelectCharacterView extends View {
 		String actionCommand = ((JButton) e.getSource()).getActionCommand();
 
 		if (actionCommand == "Select") {
+			remove(select);
+			revalidate();
+			repaint();
 			if (!player1Ready) {
 				if (player1CharacterName != null) {
 					player1Ready = true;
@@ -116,6 +127,9 @@ public class SelectCharacterView extends View {
 				if (player2CharacterName != null) {
 					player2Ready = true;
 					charactersButtons.get(player2CharacterName).disableButton();
+					add(start);
+					revalidate();
+					repaint();
 				}
 			}
 		} else if (actionCommand == "Start") {
@@ -139,6 +153,9 @@ public class SelectCharacterView extends View {
 				player2CharacterName = charactername;
 				player2SelectedCharacterLabel.setIcon(SourceManager.getSpriteImage(charactername));
 			}
+			add(select);
+			revalidate();
+			repaint();
 		}
 	}
 }
