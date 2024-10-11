@@ -33,25 +33,12 @@ public class GameView extends View {
 	@Override
 	public void before() {
 		this.gameConfig = App.sharedInstance.getCurrentGameConfiguration();
+		scoreDisplay.updateConfiguration();
 
 		game = new Reversi();
 		turnCount = 0;
 
-		scoreDisplay = new ScoreDisplay();
-		scoreDisplay.setBounds(15, 157, 103, 750);
-		scoreDisplay.setOpaque(false);
-		scoreDisplay.updatePlayerScore(2, 2);
-		add(scoreDisplay);
-
 		render(game.getGameBoardGridCurrentState());
-
-		// always leave at the end
-		JLabel background = new JLabel();
-		background.setBounds(0, -8, 805, 861);
-		background.setBackground(Color.red);
-		background.setOpaque(true);
-		background.setIcon(SourceManager.getSpriteImage("GameBoard"));
-		add(background);
 	}
 
 	public GameView(String name) {
@@ -70,6 +57,18 @@ public class GameView extends View {
 		statusDisplay.setForeground(Color.white);
 		add(statusDisplay);
 
+		GameBoardButton returnHomeButton = new GameBoardButton();
+		returnHomeButton.setIcon(SourceManager.getSpriteImage("Home"));
+		returnHomeButton.setLocation(7, 0);
+		returnHomeButton.setActionCommand("home");
+		add(returnHomeButton);
+
+		JLabel reversiTitle = new JLabel("Reversi");
+		reversiTitle.setBounds(100, 0, 600, 60);
+		reversiTitle.setFont(SourceManager.appFont.deriveFont(50f));
+		reversiTitle.setForeground(Color.white);
+		add(reversiTitle);
+
 		// fill width buttons
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
@@ -82,6 +81,19 @@ public class GameView extends View {
 		}
 
 		add(board);
+		
+		scoreDisplay = new ScoreDisplay();
+		scoreDisplay.setBounds(15, 157, 103, 750);
+		scoreDisplay.setOpaque(false);
+		add(scoreDisplay);
+
+		// always leave at the end
+		JLabel background = new JLabel();
+		background.setBounds(0, -8, 805, 861);
+		background.setBackground(Color.red);
+		background.setOpaque(true);
+		background.setIcon(SourceManager.getSpriteImage("GameBoard"));
+		add(background);
 	}
 
 	private void render(Disc board[][]) {
@@ -144,7 +156,9 @@ public class GameView extends View {
 			int y = Integer.parseInt(data.split(",")[1]);
 			playerClick(x, y);
 		} else if (command.equals("home")) {
-
+			App.sharedInstance.setView("MainMenu");
+		} else if (command.equals("reset")) {
+			App.sharedInstance.setView("Game");
 		}
 	}
 }

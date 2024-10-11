@@ -24,10 +24,13 @@ public class ScoreDisplay extends JPanel {
 	JPanel scoreColorBar;
 	JLabel scoreColorBarPoints[];
 
+	boolean inGame;
+
 	// this component is only instaciated when the program enters the game view so,
 	// the configuration exists for sure
 	public ScoreDisplay() {
-		currentGameConfig = App.sharedInstance.getCurrentGameConfiguration();
+		inGame = false;
+
 		scoreColorBarPoints = new JLabel[64];
 
 		setLayout(new FlowLayout());
@@ -35,10 +38,7 @@ public class ScoreDisplay extends JPanel {
 		player2ScoreLabel = new JLabel();
 		player2ScoreLabel.setText("99");
 		player2ScoreLabel.setHorizontalTextPosition(JLabel.LEFT);
-		player2ScoreLabel.setIcon(currentGameConfig.getPlayer2Icon());
 		player2ScoreLabel.setFont(SourceManager.appFont.deriveFont(26f));
-		player2ScoreLabel.setForeground(
-				GameConfiguration.charactersNames2Colors.get(currentGameConfig.getPlayer2CharacterName()));
 		player2ScoreLabel.setIconTextGap(-5);
 		add(player2ScoreLabel);
 
@@ -53,8 +53,6 @@ public class ScoreDisplay extends JPanel {
 			JLabel barPoint = new JLabel(" ");
 			Dimension labelSize = new Dimension(40, 7);
 			barPoint.setPreferredSize(labelSize);
-			barPoint.setOpaque(false);
-			barPoint.setBackground(Color.BLUE);
 			barPoint.setMinimumSize(labelSize);
 			barPoint.setMaximumSize(labelSize);
 			barPoint.setAlignmentX(JLabel.CENTER_ALIGNMENT);
@@ -70,12 +68,22 @@ public class ScoreDisplay extends JPanel {
 		player1ScoreLabel = new JLabel();
 		player1ScoreLabel.setText("99");
 		player1ScoreLabel.setHorizontalTextPosition(JLabel.RIGHT);
-		player1ScoreLabel.setIcon(currentGameConfig.getPlayer1Icon());
+
 		player1ScoreLabel.setFont(SourceManager.appFont.deriveFont(26f));
-		player1ScoreLabel.setForeground(
-				GameConfiguration.charactersNames2Colors.get(currentGameConfig.getPlayer1CharacterName()));
+
 		player1ScoreLabel.setIconTextGap(-5);
 		add(player1ScoreLabel);
+	}
+
+	public void updateConfiguration() {
+		currentGameConfig = App.sharedInstance.getCurrentGameConfiguration();
+		player2ScoreLabel.setIcon(currentGameConfig.getPlayer2Icon());
+		player2ScoreLabel.setForeground(
+				GameConfiguration.charactersNames2Colors.get(currentGameConfig.getPlayer2CharacterName()));
+
+		player1ScoreLabel.setIcon(currentGameConfig.getPlayer1Icon());
+		player1ScoreLabel.setForeground(
+				GameConfiguration.charactersNames2Colors.get(currentGameConfig.getPlayer1CharacterName()));
 	}
 
 	public void updatePlayerScore(int player1Score, int player2Score) {

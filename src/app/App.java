@@ -83,6 +83,9 @@ public class App extends JFrame {
 			viewStack.clear();
 			viewStack.add("MainMenu");
 		} else {
+			if(viewName.equals("MainMenu")) {
+				viewStack.clear();
+			}
 			viewStack.add(viewName);
 			currentView.before();
 			add(currentView);
