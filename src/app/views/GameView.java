@@ -61,6 +61,7 @@ public class GameView extends View {
 		returnHomeButton.setIcon(SourceManager.getSpriteImage("Home"));
 		returnHomeButton.setLocation(7, 0);
 		returnHomeButton.setActionCommand("home");
+		returnHomeButton.addActionListener(this);
 		add(returnHomeButton);
 
 		JLabel reversiTitle = new JLabel("Reversi");
@@ -81,7 +82,7 @@ public class GameView extends View {
 		}
 
 		add(board);
-		
+
 		scoreDisplay = new ScoreDisplay();
 		scoreDisplay.setBounds(15, 157, 103, 750);
 		scoreDisplay.setOpaque(false);
