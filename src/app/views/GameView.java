@@ -28,15 +28,15 @@ public class GameView extends View {
 
 	JLabel statusDisplay;
 	ScoreDisplay scoreDisplay;
-	int turnCount;
-
+	
+	boolean player1Turn;
 	@Override
 	public void before() {
 		this.gameConfig = App.sharedInstance.getCurrentGameConfiguration();
 		scoreDisplay.updateConfiguration();
 
 		game = new Reversi();
-		turnCount = 0;
+		player1Turn = true;
 
 		render(game.getGameBoardGridCurrentState());
 	}
@@ -63,6 +63,13 @@ public class GameView extends View {
 		returnHomeButton.setActionCommand("home");
 		returnHomeButton.addActionListener(this);
 		add(returnHomeButton);
+
+		GameBoardButton resetButton = new GameBoardButton();
+		resetButton.setIcon(SourceManager.getSpriteImage("Replay"));
+		resetButton.setLocation(736, 76);
+		resetButton.setActionCommand("reset");
+		resetButton.addActionListener(this);
+		add(resetButton);
 
 		JLabel reversiTitle = new JLabel("Reversi");
 		reversiTitle.setBounds(100, 0, 600, 60);
@@ -129,13 +136,13 @@ public class GameView extends View {
 		// update the turn indicator label
 		MoveStatus status = game.playerPutADisc(x, y);
 		if (status.wasALegalMove) {
-			turnCount++;
 			render(status.boardGridCurrentState);
+			player1Turn = status.nextTurn == DiscColors.black;
 		}
 	}
 
 	private void statusDisplayPlayerTurn() {
-		if (turnCount % 2 == 0) {
+		if (player1Turn) {
 			statusDisplay.setText("First Player turn");
 			statusDisplay
 					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer1CharacterName()));
