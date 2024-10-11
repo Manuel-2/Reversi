@@ -11,7 +11,6 @@ public class Reversi {
 	boolean gameOver;
 
 	public Reversi() {
-		// TODO: GameBoard puts the 4 discs at the center
 		this.gameBoard = new GameBoard(8, 8);
 		activePlayerTurnColor = DiscColors.black;
 		gameOver = false;
