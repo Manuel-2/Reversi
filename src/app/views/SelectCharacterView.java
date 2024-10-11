@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import app.SourceManager;
+import app.components.GoBackButton;
 import app.components.MenuButton;
 import app.components.SquaredButton;
 import app.GameConfigurations;
@@ -36,26 +37,36 @@ public class SelectCharacterView extends View {
 
 	@Override
 	public void before() {
-
+		if (player1CharacterName != null) {
+			charactersButtons.get(player1CharacterName).enableButton();
+		}
+		if (player2CharacterName != null) {
+			charactersButtons.get(player2CharacterName).enableButton();
+		}
+		player1CharacterName = null;
+		player2CharacterName = null;
+		player1SelectedCharacterLabel.setIcon(null);
+		player2SelectedCharacterLabel.setIcon(null);
+		player1Ready = false;
+		player2Ready = false;
 	}
 
 	public SelectCharacterView(String name) {
 		super(name);
 
 		setOpaque(true);
-		player1Ready = false;
-		player2Ready = false;
+		add(new GoBackButton());
 
 		player1SelectedCharacterLabel = new JLabel("P1: ");
 		player1SelectedCharacterLabel.setFont(SourceManager.appFont.deriveFont(30f));
-		player1SelectedCharacterLabel.setBounds(60, 48, 200, 100);
+		player1SelectedCharacterLabel.setBounds(60, 30, 200, 100);
 		player1SelectedCharacterLabel.setForeground(Color.white);
 		player1SelectedCharacterLabel.setHorizontalTextPosition(JLabel.LEFT);
 		add(player1SelectedCharacterLabel);
 
 		player2SelectedCharacterLabel = new JLabel("P2: ");
 		player2SelectedCharacterLabel.setFont(SourceManager.appFont.deriveFont(30f));
-		player2SelectedCharacterLabel.setBounds(805 - 280, 48, 200, 100);
+		player2SelectedCharacterLabel.setBounds(805 - 280, 30, 200, 100);
 		player2SelectedCharacterLabel.setForeground(Color.white);
 		player2SelectedCharacterLabel.setHorizontalTextPosition(JLabel.LEFT);
 		add(player2SelectedCharacterLabel);

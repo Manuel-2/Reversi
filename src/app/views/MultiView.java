@@ -9,6 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import app.components.GoBackButton;
 import app.components.MenuButton;
 import app.*;
 
@@ -17,7 +18,7 @@ public class MultiView extends View {
 	public MultiView(String viewName) {
 		super(viewName);
 
-		// todo: add the thing in the background
+		// TODO: add the thing in the background
 
 		JLabel title = new JLabel("Multiplayer");
 		title.setFont(SourceManager.appFont.deriveFont(50f));
@@ -25,11 +26,7 @@ public class MultiView extends View {
 		title.setForeground(Color.white);
 		add(title);
 
-		MenuButton return2MainMenu = new MenuButton("<");
-		return2MainMenu.setFont(SourceManager.appFont.deriveFont(50f));
-		return2MainMenu.setBounds(10, 60, 50, 50);
-		return2MainMenu.addActionListener(this);
-		add(return2MainMenu);
+		add(new GoBackButton());
 
 		addVerticalArrayOfMainMenuButtons(50, 200, 300, 800, 50, new String[] { "Local", "Online" });
 	}
@@ -41,8 +38,6 @@ public class MultiView extends View {
 			App.sharedInstance.startGame(GameConfigurations.local);
 		} else if (actionCommand.equals("Online")) {
 			// load the online view
-		} else if (actionCommand.equals("<")) {
-			App.sharedInstance.setView("MainMenu");
 		}
 	}
 
@@ -51,5 +46,4 @@ public class MultiView extends View {
 		// TODO Auto-generated method stub
 
 	}
-
 }

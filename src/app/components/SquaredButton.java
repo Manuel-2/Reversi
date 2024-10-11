@@ -40,4 +40,8 @@ public class SquaredButton extends JPanel {
 	public void disableButton() {
 		buttonComponent.setEnabled(false);
 	}
+	
+	public void enableButton() {
+		buttonComponent.setEnabled(true);
+	}
 }
