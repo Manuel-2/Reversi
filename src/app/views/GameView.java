@@ -16,6 +16,7 @@ import app.GameConfiguration;
 import app.GameModes;
 import app.SourceManager;
 import app.components.GameBoardButton;
+import app.components.ScoreDisplay;
 import reversi.*;
 
 public class GameView extends View {
@@ -26,6 +27,7 @@ public class GameView extends View {
 	GameConfiguration gameConfig;
 
 	JLabel statusDisplay;
+	ScoreDisplay scoreDisplay;
 	int turnCount;
 
 	@Override
@@ -34,8 +36,22 @@ public class GameView extends View {
 
 		game = new Reversi();
 		turnCount = 0;
-		statusDisplayPlayerTurn();
+
+		scoreDisplay = new ScoreDisplay();
+		scoreDisplay.setBounds(15, 157, 103, 750);
+		scoreDisplay.setOpaque(false);
+		scoreDisplay.updatePlayerScore(2, 2);
+		add(scoreDisplay);
+
 		render(game.getGameBoardGridCurrentState());
+
+		// always leave at the end
+		JLabel background = new JLabel();
+		background.setBounds(0, -8, 805, 861);
+		background.setBackground(Color.red);
+		background.setOpaque(true);
+		background.setIcon(SourceManager.getSpriteImage("GameBoard"));
+		add(background);
 	}
 
 	public GameView(String name) {
@@ -66,17 +82,11 @@ public class GameView extends View {
 		}
 
 		add(board);
-
-		JLabel background = new JLabel();
-		background.setBounds(0, -8, 805, 861);
-		background.setBackground(Color.red);
-		background.setOpaque(true);
-		background.setIcon(SourceManager.getSpriteImage("GameBoard"));
-		add(background);
 	}
 
 	private void render(Disc board[][]) {
 		statusDisplayPlayerTurn();
+		scoreDisplay.updatePlayerScore(game.getBlackDiscCount(), game.getWhiteDiscCount());
 
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
