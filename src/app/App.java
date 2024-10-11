@@ -83,7 +83,7 @@ public class App extends JFrame {
 			viewStack.clear();
 			viewStack.add("MainMenu");
 		} else {
-			if(viewName.equals("MainMenu")) {
+			if(viewName.equals("MainMenu") || viewName.equals("Game")) {
 				viewStack.clear();
 			}
 			viewStack.add(viewName);
