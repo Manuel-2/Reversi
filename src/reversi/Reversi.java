@@ -6,7 +6,7 @@ public class Reversi {
 	GameBoard gameBoard;
 	DiscColors activePlayerTurnColor;
 	ArrayList<MovementTrace> activePlayerPosibleMoves;
-	int whiteDiscCount, blackDiscCount;
+	private int whiteDiscCount, blackDiscCount;
 
 	boolean gameOver;
 
@@ -15,6 +15,8 @@ public class Reversi {
 		this.gameBoard = new GameBoard(8, 8);
 		activePlayerTurnColor = DiscColors.black;
 		gameOver = false;
+		whiteDiscCount = gameBoard.placedWhiteDiscs.size();
+		blackDiscCount = gameBoard.placedBlackDiscs.size();
 	}
 
 	public Disc[][] getGameBoardGridCurrentState() {
@@ -37,14 +39,14 @@ public class Reversi {
 				}
 				for (Disc enemyDisc : trace.discTrace) {
 					enemyDisc.color = activePlayerTurnColor;
-					if(enemyColor == DiscColors.white) {
+					if (enemyColor == DiscColors.white) {
 						gameBoard.placedWhiteDiscs.remove(enemyDisc);
 						gameBoard.placedBlackDiscs.add(enemyDisc);
-					}else if(enemyColor == DiscColors.black) {
+					} else if (enemyColor == DiscColors.black) {
 						gameBoard.placedBlackDiscs.remove(enemyDisc);
 						gameBoard.placedWhiteDiscs.add(enemyDisc);
 					}
-					
+
 				}
 			}
 		}
@@ -63,7 +65,7 @@ public class Reversi {
 			}
 
 		}
-		
+
 		this.blackDiscCount = gameBoard.placedBlackDiscs.size();
 		this.whiteDiscCount = gameBoard.placedWhiteDiscs.size();
 		return new MoveStatus(isAPossibleMove, gameBoard, activePlayerTurnColor, this.gameOver);
@@ -153,4 +155,11 @@ public class Reversi {
 		return null;
 	}
 
+	public int getWhiteDiscCount() {
+		return whiteDiscCount;
+	}
+
+	public int getBlackDiscCount() {
+		return blackDiscCount;
+	}
 }
