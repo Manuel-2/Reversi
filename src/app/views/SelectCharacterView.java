@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,12 +22,10 @@ import app.components.GoBackButton;
 import app.components.MenuButton;
 import app.components.SquaredButton;
 import app.App;
+import app.GameConfiguration;
 import app.GameModes;
 
 public class SelectCharacterView extends View {
-
-	final String charactersNames[] = new String[] { "Blue", "Green", "Orange", "Pink", "Purple", "Red", "White",
-			"Yellow" };
 
 	String player1CharacterName, player2CharacterName;
 	JLabel player1SelectedCharacterLabel, player2SelectedCharacterLabel;
@@ -50,8 +50,9 @@ public class SelectCharacterView extends View {
 		player2SelectedCharacterLabel.setIcon(null);
 		player1Ready = false;
 		player2Ready = false;
-		
-		//TODO: check the game configuration if it is solo,change the p2 label's text to say CPU
+
+		// TODO: check the game configuration if it is solo,change the p2 label's text
+		// to say CPU
 	}
 
 	public SelectCharacterView(String name) {
@@ -79,12 +80,15 @@ public class SelectCharacterView extends View {
 		characterGrid.setOpaque(false);
 		characterGrid.setLayout(new GridLayout(2, 4, 80, 10));
 
+		ArrayList<String> charactersNames = new ArrayList<String>(GameConfiguration.charactersNames2Colors.keySet());
+		charactersNames.sort(null);
 		for (String character : charactersNames) {
 			SquaredButton selecCharacterButton = new SquaredButton(SourceManager.getSpriteImage(character), character,
 					this);
 			characterGrid.add(selecCharacterButton);
 			charactersButtons.put(character, selecCharacterButton);
 		}
+		
 		add(characterGrid);
 
 		MenuButton select = new MenuButton("Select");
@@ -118,9 +122,11 @@ public class SelectCharacterView extends View {
 			if (player1Ready && player2Ready) {
 				ImageIcon player1Icon = SourceManager.getSpriteImage(player1CharacterName);
 				App.sharedInstance.getCurrentGameConfiguration().setPlayer1Icon(player1Icon);
-				
+				App.sharedInstance.getCurrentGameConfiguration().setPlayer1CharacterName(player1CharacterName);
+
 				ImageIcon player2Icon = SourceManager.getSpriteImage(player2CharacterName);
 				App.sharedInstance.getCurrentGameConfiguration().setPlayer2Icon(player2Icon);
+				App.sharedInstance.getCurrentGameConfiguration().setPlayer2CharacterName(player2CharacterName);
 				App.sharedInstance.setView("Game");
 			}
 		} else {

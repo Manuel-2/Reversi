@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.ObjectInputFilter.Config;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,17 +20,21 @@ import reversi.*;
 
 public class GameView extends View {
 
-	
 	Reversi game;
 	GameBoardButton boardButtons[][];
-	
+
 	GameConfiguration gameConfig;
+
+	JLabel statusDisplay;
+	int turnCount;
 
 	@Override
 	public void before() {
 		this.gameConfig = App.sharedInstance.getCurrentGameConfiguration();
 
- 		game = new Reversi();
+		game = new Reversi();
+		turnCount = 0;
+		statusDisplayPlayerTurn();
 		render(game.getGameBoardGridCurrentState());
 	}
 
@@ -41,6 +46,13 @@ public class GameView extends View {
 		board.setOpaque(false);
 		board.setLayout(new GridLayout(8, 8));
 		boardButtons = new GameBoardButton[8][8];
+
+		statusDisplay = new JLabel();
+		statusDisplay.setBounds(125, 70, 555, 100);
+		statusDisplay.setFont(SourceManager.appFont.deriveFont(30f));
+		statusDisplay.setHorizontalAlignment(JLabel.CENTER);
+		statusDisplay.setForeground(Color.white);
+		add(statusDisplay);
 
 		// fill width buttons
 		for (int y = 0; y < 8; y++) {
@@ -64,7 +76,8 @@ public class GameView extends View {
 	}
 
 	private void render(Disc board[][]) {
-		
+		statusDisplayPlayerTurn();
+
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
 				GameBoardButton button = boardButtons[x][y];
@@ -79,11 +92,13 @@ public class GameView extends View {
 				}
 			}
 		}
-		
+
 		Position2D posibleMoves[] = game.getPosibleMoves();
-		for(Position2D posibleMove : posibleMoves) {
-			GameBoardButton button = boardButtons[posibleMove.x()][posibleMove.y()];
-			button.setIcon(SourceManager.getSpriteImage("Circle"));
+		if (posibleMoves != null) {
+			for (Position2D posibleMove : posibleMoves) {
+				GameBoardButton button = boardButtons[posibleMove.x()][posibleMove.y()];
+				button.setIcon(SourceManager.getSpriteImage("Circle"));
+			}
 		}
 	}
 
@@ -91,7 +106,20 @@ public class GameView extends View {
 		// update the turn indicator label
 		MoveStatus status = game.playerPutADisc(x, y);
 		if (status.wasALegalMove) {
+			turnCount++;
 			render(status.boardGridCurrentState);
+		}
+	}
+
+	private void statusDisplayPlayerTurn() {
+		if (turnCount % 2 == 0) {
+			statusDisplay.setText("First Player turn");
+			statusDisplay
+					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer1CharacterName()));
+		} else {
+			statusDisplay.setText("Secon Player Turn");
+			statusDisplay
+					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer2CharacterName()));
 		}
 	}
 

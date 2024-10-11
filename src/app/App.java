@@ -49,7 +49,6 @@ public class App extends JFrame {
 		// show the main Menu
 		setView("MainMenu");
 
-		
 		setVisible(true);
 	}
 
