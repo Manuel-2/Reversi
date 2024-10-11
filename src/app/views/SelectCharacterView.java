@@ -19,7 +19,8 @@ import app.SourceManager;
 import app.components.GoBackButton;
 import app.components.MenuButton;
 import app.components.SquaredButton;
-import app.GameConfigurations;
+import app.App;
+import app.GameModes;
 
 public class SelectCharacterView extends View {
 
@@ -33,7 +34,7 @@ public class SelectCharacterView extends View {
 	JPanel characterGrid;
 	Map<String, SquaredButton> charactersButtons = new HashMap<String, SquaredButton>();
 
-	GameConfigurations gameConfig;
+	GameModes gameConfig;
 
 	@Override
 	public void before() {
@@ -49,6 +50,8 @@ public class SelectCharacterView extends View {
 		player2SelectedCharacterLabel.setIcon(null);
 		player1Ready = false;
 		player2Ready = false;
+		
+		//TODO: check the game configuration if it is solo,change the p2 label's text to say CPU
 	}
 
 	public SelectCharacterView(String name) {
@@ -113,7 +116,12 @@ public class SelectCharacterView extends View {
 			}
 		} else if (actionCommand == "Start") {
 			if (player1Ready && player2Ready) {
-				// start the game
+				ImageIcon player1Icon = SourceManager.getSpriteImage(player1CharacterName);
+				App.sharedInstance.getCurrentGameConfiguration().setPlayer1Icon(player1Icon);
+				
+				ImageIcon player2Icon = SourceManager.getSpriteImage(player2CharacterName);
+				App.sharedInstance.getCurrentGameConfiguration().setPlayer2Icon(player2Icon);
+				App.sharedInstance.setView("Game");
 			}
 		} else {
 			// Here action Command is a character Name

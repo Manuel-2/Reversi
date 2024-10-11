@@ -5,6 +5,7 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import app.views.GameView;
 import app.views.MainMenuView;
 import app.views.MultiView;
 import app.views.SelectCharacterView;
@@ -22,7 +23,7 @@ public class App extends JFrame {
 	private Map<String, View> loadedViews = new HashMap<String, View>();
 	private View currentView;
 
-	GameConfigurations currentGameConfiguration;
+	GameConfiguration currentGameConfiguration;
 
 	Stack<String> viewStack;
 
@@ -34,29 +35,33 @@ public class App extends JFrame {
 		setLocationRelativeTo(null);
 		setTitle("Reversi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(805, 892);
+		setSize(820, 892);
 
 		viewStack = new Stack<String>();
+		currentGameConfiguration = new GameConfiguration(null);
 
 		// register the views
 		new MainMenuView("MainMenu");
 		new MultiView("Multi");
 		new SelectCharacterView("SelectCharacter");
+		new GameView("Game");
 
 		// show the main Menu
 		setView("MainMenu");
+
+		
 		setVisible(true);
 	}
 
-	public void startGame(GameConfigurations gameConfig) {
-		switch (gameConfig) {
+	public void setGameModeAndEnterCharacterSelection(GameModes gameMode) {
+		switch (gameMode) {
 		case local: {
-			currentGameConfiguration = gameConfig;
+			currentGameConfiguration.setGameMode(gameMode);
 			setView("SelectCharacter");
 			break;
 		}
 		default:
-			throw new IllegalArgumentException("Unexpected value: " + gameConfig);
+			throw new IllegalArgumentException("Unexpected value: " + gameMode);
 		}
 	}
 
@@ -97,7 +102,7 @@ public class App extends JFrame {
 		}
 	}
 
-	public GameConfigurations getCurrentGameConfiguration() {
+	public GameConfiguration getCurrentGameConfiguration() {
 		return App.sharedInstance.currentGameConfiguration;
 	}
 }

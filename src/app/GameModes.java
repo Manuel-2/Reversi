@@ -1,5 +1,5 @@
 package app;
 
-public enum GameConfigurations {
+public enum GameModes {
 	solo, local, host, join,
 }

@@ -35,7 +35,7 @@ public class MultiView extends View {
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = ((MenuButton) e.getSource()).getActionCommand();
 		if (actionCommand.equals("Local")) {
-			App.sharedInstance.startGame(GameConfigurations.local);
+			App.sharedInstance.setGameModeAndEnterCharacterSelection(GameModes.local);
 		} else if (actionCommand.equals("Online")) {
 			// load the online view
 		}
