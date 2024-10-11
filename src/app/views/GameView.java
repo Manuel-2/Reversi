@@ -28,8 +28,10 @@ public class GameView extends View {
 
 	JLabel statusDisplay;
 	ScoreDisplay scoreDisplay;
-	
+
 	boolean player1Turn;
+	boolean gameOver;
+
 	@Override
 	public void before() {
 		this.gameConfig = App.sharedInstance.getCurrentGameConfiguration();
@@ -37,6 +39,7 @@ public class GameView extends View {
 
 		game = new Reversi();
 		player1Turn = true;
+		gameOver = false;
 
 		render(game.getGameBoardGridCurrentState());
 	}
@@ -133,11 +136,32 @@ public class GameView extends View {
 	}
 
 	private void playerClick(int x, int y) {
+		if (gameOver)
+			return;
 		// update the turn indicator label
 		MoveStatus status = game.playerPutADisc(x, y);
 		if (status.wasALegalMove) {
-			render(status.boardGridCurrentState);
 			player1Turn = status.nextTurn == DiscColors.black;
+			render(status.boardGridCurrentState);
+
+			if (status.gameIsOver) {
+				GameOver();
+			}
+		}
+	}
+
+	private void GameOver() {
+		gameOver = true;
+		int player1Score = game.getBlackDiscCount();
+		int player2Score = game.getWhiteDiscCount();
+
+		statusDisplay.setForeground(Color.white);
+		if (player1Score > player2Score) {
+			statusDisplay.setText(gameConfig.getPlayer1CharacterName() + "wins");
+		} else if (player2Score > player1Score) {
+			statusDisplay.setText(gameConfig.getPlayer2CharacterName() + "wins");
+		} else {
+			statusDisplay.setText("Draw");
 		}
 	}
 
