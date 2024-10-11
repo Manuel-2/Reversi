@@ -157,9 +157,9 @@ public class GameView extends View {
 
 		statusDisplay.setForeground(Color.white);
 		if (player1Score > player2Score) {
-			statusDisplay.setText(gameConfig.getPlayer1CharacterName() + "wins");
+			statusDisplay.setText(gameConfig.getPlayer1CharacterName() + " wins!!!");
 		} else if (player2Score > player1Score) {
-			statusDisplay.setText(gameConfig.getPlayer2CharacterName() + "wins");
+			statusDisplay.setText(gameConfig.getPlayer2CharacterName() + " wins!!!");
 		} else {
 			statusDisplay.setText("Draw");
 		}
