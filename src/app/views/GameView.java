@@ -31,8 +31,6 @@ public class GameView extends View {
 
  		game = new Reversi();
 		render(game.getGameBoardGridCurrentState());
-
-		// TODO:load up the characters icons in play
 	}
 
 	public GameView(String name) {
@@ -66,8 +64,11 @@ public class GameView extends View {
 	}
 
 	private void render(Disc board[][]) {
+		
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
+				GameBoardButton button = boardButtons[x][y];
+				button.setIcon(null);
 				Disc disc = board[x][y];
 				if (disc == null)
 					continue;
@@ -77,6 +78,12 @@ public class GameView extends View {
 					boardButtons[x][y].setIcon(gameConfig.getPlayer2Icon());
 				}
 			}
+		}
+		
+		Position2D posibleMoves[] = game.getPosibleMoves();
+		for(Position2D posibleMove : posibleMoves) {
+			GameBoardButton button = boardButtons[posibleMove.x()][posibleMove.y()];
+			button.setIcon(SourceManager.getSpriteImage("Circle"));
 		}
 	}
 
