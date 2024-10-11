@@ -171,7 +171,7 @@ public class GameView extends View {
 			statusDisplay
 					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer1CharacterName()));
 		} else {
-			statusDisplay.setText("Secon Player Turn");
+			statusDisplay.setText("Second Player Turn");
 			statusDisplay
 					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer2CharacterName()));
 		}
