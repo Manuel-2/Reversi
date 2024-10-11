@@ -94,7 +94,7 @@ public class Reversi {
 					if (x == 0 && y == 0)
 						continue;
 					MovementTrace posibleMove = checkDirecion(placedDisc.position, x, y, playerColor);
-					if (posibleMove != null) {
+					if (posibleMove != null && gameBoard.isPositionInsideBoardGrid(posibleMove.finish)) {
 						posibleMoves.add(posibleMove);
 					}
 				}
