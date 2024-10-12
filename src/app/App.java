@@ -5,6 +5,7 @@ import java.util.Stack;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import app.views.CredditsView;
 import app.views.GameView;
 import app.views.MainMenuView;
 import app.views.MultiView;
@@ -45,6 +46,7 @@ public class App extends JFrame {
 		new MultiView("Multi");
 		new SelectCharacterView("SelectCharacter");
 		new GameView("Game");
+		new CredditsView("Creddits");
 
 		// show the main Menu
 		setView("MainMenu");
