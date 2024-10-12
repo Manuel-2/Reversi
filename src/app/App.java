@@ -38,6 +38,7 @@ public class App extends JFrame {
 		setTitle("Reversi");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(820, 892);
+		
 
 		viewStack = new Stack<String>();
 		currentGameConfiguration = new GameConfiguration(null);
@@ -53,6 +54,7 @@ public class App extends JFrame {
 		// show the main Menu
 		setView("MainMenu");
 
+		setIconImage(SourceManager.getSpriteImage("White"));
 		setVisible(true);
 	}
 

@@ -61,14 +61,14 @@ public class GameView extends View {
 		add(statusDisplay);
 
 		GameBoardButton returnHomeButton = new GameBoardButton();
-		returnHomeButton.setIcon(SourceManager.getSpriteImage("Home"));
+		returnHomeButton.setIcon(SourceManager.getSpriteImageIcon("Home"));
 		returnHomeButton.setLocation(7, 0);
 		returnHomeButton.setActionCommand("home");
 		returnHomeButton.addActionListener(this);
 		add(returnHomeButton);
 
 		GameBoardButton resetButton = new GameBoardButton();
-		resetButton.setIcon(SourceManager.getSpriteImage("Replay"));
+		resetButton.setIcon(SourceManager.getSpriteImageIcon("Replay"));
 		resetButton.setLocation(736, 76);
 		resetButton.setActionCommand("reset");
 		resetButton.addActionListener(this);
@@ -103,7 +103,7 @@ public class GameView extends View {
 		background.setBounds(0, -8, 805, 861);
 		background.setBackground(Color.red);
 		background.setOpaque(true);
-		background.setIcon(SourceManager.getSpriteImage("GameBoard"));
+		background.setIcon(SourceManager.getSpriteImageIcon("GameBoard"));
 		add(background);
 	}
 
@@ -131,11 +131,11 @@ public class GameView extends View {
 			for (Position2D posibleMove : posibleMoves) {
 				GameBoardButton button = boardButtons[posibleMove.x()][posibleMove.y()];
 				// TODO:set a circle based on the color
-				ImageIcon circleColored = SourceManager.getSpriteImage("null");
+				ImageIcon circleColored = SourceManager.getSpriteImageIcon("null");
 				if (player1Turn) {
-					circleColored = SourceManager.getSpriteImage("Circle" + gameConfig.getPlayer1CharacterName());
+					circleColored = SourceManager.getSpriteImageIcon("Circle" + gameConfig.getPlayer1CharacterName());
 				} else {
-					circleColored = SourceManager.getSpriteImage("Circle" + gameConfig.getPlayer2CharacterName());
+					circleColored = SourceManager.getSpriteImageIcon("Circle" + gameConfig.getPlayer2CharacterName());
 				}
 				button.setIcon(circleColored);
 			}

@@ -14,7 +14,7 @@ public class CredditsView extends View {
 		add(new GoBackButton());
 
 		// well i was running out of time
-		JLabel content = new JLabel(SourceManager.getSpriteImage("Creddits"));
+		JLabel content = new JLabel(SourceManager.getSpriteImageIcon("Creddits"));
 		content.setBounds(0, 30, 820, 892);
 		content.setText(" ");
 		add(content);

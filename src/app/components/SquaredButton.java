@@ -21,7 +21,7 @@ public class SquaredButton extends JPanel {
 		setOpaque(false);
 		setSize(91, 91);
 
-		JLabel backgroundLabel = new JLabel(SourceManager.getSpriteImage("SquareButton"));
+		JLabel backgroundLabel = new JLabel(SourceManager.getSpriteImageIcon("SquareButton"));
 		backgroundLabel.setBounds(getVisibleRect());
 		add(backgroundLabel);
 

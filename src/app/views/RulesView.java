@@ -14,7 +14,7 @@ public class RulesView extends View {
 		add(new GoBackButton());
 
 		// well i was running out of time
-		JLabel content = new JLabel(SourceManager.getSpriteImage("Rules"));
+		JLabel content = new JLabel(SourceManager.getSpriteImageIcon("Rules"));
 		content.setBounds(0, -16, 820, 892);
 		content.setText(" ");
 		add(content);

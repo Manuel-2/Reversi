@@ -35,7 +35,7 @@ public class MainMenuView extends View {
 		}
 		add(menuButtonsContainer);
 
-		JLabel panelBackground = new JLabel(SourceManager.getSpriteImage("MainMenuViewBackground"));
+		JLabel panelBackground = new JLabel(SourceManager.getSpriteImageIcon("MainMenuViewBackground"));
 		panelBackground.setBounds(-15, 0, 805, 861);
 		panelBackground.setOpaque(true);
 		add(panelBackground);

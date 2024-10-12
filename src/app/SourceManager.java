@@ -54,11 +54,20 @@ public class SourceManager {
 		}
 	}
 
-	public static ImageIcon getSpriteImage(String spriteName) {
+	public static ImageIcon getSpriteImageIcon(String spriteName) {
 		Image img = sharedInstance.sprites.get(spriteName);
 		if (img == null) {
 			img = sharedInstance.sprites.get("NotFound");
 		}
 		return new ImageIcon(img);
 	}
+	
+	public static Image getSpriteImage(String spriteName) {
+		Image img = sharedInstance.sprites.get(spriteName);
+		if (img == null) {
+			img = sharedInstance.sprites.get("NotFound");
+		}
+		return img;
+	}
+	
 }

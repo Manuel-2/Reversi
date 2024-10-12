@@ -21,7 +21,7 @@ public class MenuButton extends JButton {
 		setForeground(Color.white);
 		setBorder(null);
 		setFont(SourceManager.appFont.deriveFont(30f));
-		setIcon(SourceManager.getSpriteImage("ButtonFrame"));
+		setIcon(SourceManager.getSpriteImageIcon("ButtonFrame"));
 		setBackground(App.BackgroundColor);
 		setContentAreaFilled(false);
 	}

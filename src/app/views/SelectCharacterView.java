@@ -91,7 +91,7 @@ public class SelectCharacterView extends View {
 		ArrayList<String> charactersNames = new ArrayList<String>(GameConfiguration.charactersNames2Colors.keySet());
 		charactersNames.sort(null);
 		for (String character : charactersNames) {
-			SquaredButton selecCharacterButton = new SquaredButton(SourceManager.getSpriteImage(character), character,
+			SquaredButton selecCharacterButton = new SquaredButton(SourceManager.getSpriteImageIcon(character), character,
 					this);
 			characterGrid.add(selecCharacterButton);
 			charactersButtons.put(character, selecCharacterButton);
@@ -134,11 +134,11 @@ public class SelectCharacterView extends View {
 			}
 		} else if (actionCommand == "Start") {
 			if (player1Ready && player2Ready) {
-				ImageIcon player1Icon = SourceManager.getSpriteImage(player1CharacterName);
+				ImageIcon player1Icon = SourceManager.getSpriteImageIcon(player1CharacterName);
 				App.sharedInstance.getCurrentGameConfiguration().setPlayer1Icon(player1Icon);
 				App.sharedInstance.getCurrentGameConfiguration().setPlayer1CharacterName(player1CharacterName);
 
-				ImageIcon player2Icon = SourceManager.getSpriteImage(player2CharacterName);
+				ImageIcon player2Icon = SourceManager.getSpriteImageIcon(player2CharacterName);
 				App.sharedInstance.getCurrentGameConfiguration().setPlayer2Icon(player2Icon);
 				App.sharedInstance.getCurrentGameConfiguration().setPlayer2CharacterName(player2CharacterName);
 				App.sharedInstance.setView("Game");
@@ -148,10 +148,10 @@ public class SelectCharacterView extends View {
 			String charactername = actionCommand;
 			if (!player1Ready) {
 				player1CharacterName = charactername;
-				player1SelectedCharacterLabel.setIcon(SourceManager.getSpriteImage(charactername));
+				player1SelectedCharacterLabel.setIcon(SourceManager.getSpriteImageIcon(charactername));
 			} else if (player1Ready && !player2Ready) {
 				player2CharacterName = charactername;
-				player2SelectedCharacterLabel.setIcon(SourceManager.getSpriteImage(charactername));
+				player2SelectedCharacterLabel.setIcon(SourceManager.getSpriteImageIcon(charactername));
 			}
 			add(select);
 			revalidate();
