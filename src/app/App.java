@@ -59,15 +59,8 @@ public class App extends JFrame {
 	}
 
 	public void setGameModeAndEnterCharacterSelection(GameModes gameMode) {
-		switch (gameMode) {
-		case local: {
-			currentGameConfiguration.setGameMode(gameMode);
-			setView("SelectCharacter");
-			break;
-		}
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + gameMode);
-		}
+		currentGameConfiguration.setGameMode(gameMode);
+		setView("SelectCharacter");
 	}
 
 	public void registerView(View view, String name) {

@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.ObjectInputFilter.Config;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -108,7 +109,6 @@ public class GameView extends View {
 	}
 
 	private void render(Disc board[][]) {
-		statusDisplayPlayerTurn();
 		scoreDisplay.updatePlayerScore(game.getBlackDiscCount(), game.getWhiteDiscCount());
 
 		for (int y = 0; y < 8; y++) {
@@ -140,10 +140,12 @@ public class GameView extends View {
 				button.setIcon(circleColored);
 			}
 		}
+
+		statusDisplayPlayerTurn();
 	}
 
 	private void playerClick(int x, int y) {
-		if (gameOver)
+		if (gameOver || (gameConfig.getGameMode() == GameModes.solo && !player1Turn))
 			return;
 		// update the turn indicator label
 		MoveStatus status = game.playerPutADisc(x, y);
@@ -153,7 +155,28 @@ public class GameView extends View {
 
 			if (status.gameIsOver) {
 				GameOver();
+				return;
 			}
+
+			if(gameConfig.getGameMode() == GameModes.solo) {
+				cpuPlayerPlays();				
+			}
+		}
+	}
+
+	private void cpuPlayerPlays() {
+		Position2D posibleMoves[] = game.getPosibleMoves();
+
+		// the most sofisticated reversi bot
+		int selectedMoveIndex = (int) (Math.random() * (posibleMoves.length));
+		Position2D move = posibleMoves[selectedMoveIndex];
+		
+		MoveStatus status = game.playerPutADisc(move.x(), move.y());
+		player1Turn = true;
+		render(status.boardGridCurrentState);
+		if (status.gameIsOver) {
+			GameOver();
+			return;
 		}
 	}
 
@@ -166,7 +189,11 @@ public class GameView extends View {
 		if (player1Score > player2Score) {
 			statusDisplay.setText(gameConfig.getPlayer1CharacterName() + " wins!!!");
 		} else if (player2Score > player1Score) {
-			statusDisplay.setText(gameConfig.getPlayer2CharacterName() + " wins!!!");
+			if (gameConfig.getGameMode() == GameModes.solo) {
+				statusDisplay.setText("You Lost :(");
+			} else {
+				statusDisplay.setText(gameConfig.getPlayer2CharacterName() + " wins!!!");
+			}
 		} else {
 			statusDisplay.setText("Draw");
 		}
@@ -178,7 +205,11 @@ public class GameView extends View {
 			statusDisplay
 					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer1CharacterName()));
 		} else {
-			statusDisplay.setText("Second Player Turn");
+			if (gameConfig.getGameMode() == GameModes.solo) {
+				statusDisplay.setText("CPU Turn....");
+			} else {
+				statusDisplay.setText("Second Player Turn");
+			}
 			statusDisplay
 					.setForeground(GameConfiguration.charactersNames2Colors.get(gameConfig.getPlayer2CharacterName()));
 		}

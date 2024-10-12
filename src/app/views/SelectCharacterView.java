@@ -34,13 +34,15 @@ public class SelectCharacterView extends View {
 	JPanel characterGrid;
 	Map<String, SquaredButton> charactersButtons = new HashMap<String, SquaredButton>();
 
-	GameModes gameConfig;
+	GameConfiguration gameConfig;
 	
 	MenuButton select;
 	MenuButton start;
 
 	@Override
 	public void before() {
+		gameConfig = App.sharedInstance.getCurrentGameConfiguration();
+		
 		if (player1CharacterName != null) {
 			charactersButtons.get(player1CharacterName).enableButton();
 		}
@@ -59,8 +61,11 @@ public class SelectCharacterView extends View {
 		revalidate();
 		repaint();
 
-		// TODO: check the game configuration if it is solo,change the p2 label's text
-		// to say CPU
+		if(gameConfig.getGameMode() == GameModes.solo) {
+			player2SelectedCharacterLabel.setText("CPU:");
+		}else {
+			player2SelectedCharacterLabel.setText("P2: ");
+		}
 	}
 
 	public SelectCharacterView(String name) {

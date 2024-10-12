@@ -28,7 +28,7 @@ public class MultiView extends View {
 
 		add(new GoBackButton());
 
-		addVerticalArrayOfMainMenuButtons(50, 200, 300, 800, 50, new String[] { "Local", "Online" });
+		addVerticalArrayOfMainMenuButtons(50, 200, 300, 800, 50, new String[] { "Local"});
 	}
 
 	@Override

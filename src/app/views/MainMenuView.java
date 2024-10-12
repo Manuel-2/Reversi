@@ -45,6 +45,10 @@ public class MainMenuView extends View {
 	public void actionPerformed(ActionEvent e) {
 		MenuButton button = (MenuButton) e.getSource();
 		String targetView = button.getActionCommand();
+		if(targetView.equals("Solo")) {
+			App.sharedInstance.setGameModeAndEnterCharacterSelection(GameModes.solo);
+			return;
+		}
 		App.sharedInstance.setView(targetView);
 	}
 
