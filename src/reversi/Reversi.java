@@ -51,18 +51,14 @@ public class Reversi {
 		}
 
 		if (isAPossibleMove) {
+			ArrayList<MovementTrace> activePlayerPossibleMoves = calculatePosibleMoves(activePlayerTurnColor);
 			ArrayList<MovementTrace> enemyPlayerPossibleMoves = calculatePosibleMoves(enemyColor);
-			if (enemyPlayerPossibleMoves.size() == 0) {
-				activePlayerPosibleMoves = calculatePosibleMoves(activePlayerTurnColor);
-				if (activePlayerPosibleMoves.size() == 0) {
-					this.gameOver = true;
-				} else {
-					activePlayerTurnColor = DiscColors.invert(activePlayerTurnColor);
-				}
-			} else {
+
+			if (enemyPlayerPossibleMoves.size() == 0 && activePlayerPossibleMoves.size() == 0) {
+				this.gameOver = true;
+			} else if (enemyPlayerPossibleMoves.size() > 0) {
 				activePlayerTurnColor = enemyColor;
 			}
-
 		}
 
 		this.blackDiscCount = gameBoard.placedBlackDiscs.size();
