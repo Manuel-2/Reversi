@@ -26,7 +26,7 @@ public class MainMenuView extends View {
 		menuButtonsContainer.setBounds(50, 200, 300, 600);
 		menuButtonsContainer.setLayout(new BoxLayout(menuButtonsContainer, BoxLayout.Y_AXIS));
 		menuButtonsContainer.setOpaque(false);
-		String buttonsNames[] = { "Solo", "Multi", "Tutorial", "Creddits" };
+		String buttonsNames[] = { "Solo", "Multi", "Rules", "Creddits" };
 		for (String buttonName : buttonsNames) {
 			MenuButton menuButton = new MenuButton(buttonName);
 			menuButton.addActionListener(this);

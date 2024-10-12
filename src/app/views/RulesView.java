@@ -7,26 +7,28 @@ import javax.swing.JLabel;
 import app.SourceManager;
 import app.components.GoBackButton;
 
-public class CredditsView extends View {
+public class RulesView extends View {
 
-	public CredditsView(String name) {
+	public RulesView(String name) {
 		super(name);
 		add(new GoBackButton());
 
 		// well i was running out of time
-		JLabel content = new JLabel(SourceManager.getSpriteImage("Creddits"));
-		content.setBounds(0, 30, 820, 892);
+		JLabel content = new JLabel(SourceManager.getSpriteImage("Rules"));
+		content.setBounds(0, -16, 820, 892);
 		content.setText(" ");
 		add(content);
 	}
 
 	@Override
 	public void before() {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 
 	}
 

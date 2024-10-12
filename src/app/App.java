@@ -9,6 +9,7 @@ import app.views.CredditsView;
 import app.views.GameView;
 import app.views.MainMenuView;
 import app.views.MultiView;
+import app.views.RulesView;
 import app.views.SelectCharacterView;
 import app.views.View;
 
@@ -47,6 +48,7 @@ public class App extends JFrame {
 		new SelectCharacterView("SelectCharacter");
 		new GameView("Game");
 		new CredditsView("Creddits");
+		new RulesView("Rules");
 
 		// show the main Menu
 		setView("MainMenu");
