@@ -5,12 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.io.ObjectInputFilter.Config;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 
 import app.App;
 import app.GameConfiguration;
@@ -158,26 +160,45 @@ public class GameView extends View {
 				return;
 			}
 
-			if(gameConfig.getGameMode() == GameModes.solo) {
-				cpuPlayerPlays();				
+			if (gameConfig.getGameMode() == GameModes.solo) {
+				cpuPlayerPlays();
 			}
 		}
 	}
 
 	private void cpuPlayerPlays() {
-		Position2D posibleMoves[] = game.getPosibleMoves();
 
-		// the most sofisticated reversi bot
-		int selectedMoveIndex = (int) (Math.random() * (posibleMoves.length));
-		Position2D move = posibleMoves[selectedMoveIndex];
-		
-		MoveStatus status = game.playerPutADisc(move.x(), move.y());
-		player1Turn = true;
-		render(status.boardGridCurrentState);
-		if (status.gameIsOver) {
-			GameOver();
-			return;
-		}
+		SwingWorker<String, Void> worker = new SwingWorker<String, Void>() {
+			@Override
+			protected String doInBackground() throws Exception {
+				for (int i = 0; i < 4; i++) {
+					String suspensivePoints = ".".repeat(i);
+					statusDisplay.setText("CPU thinking " + suspensivePoints);
+					Thread.sleep(500);
+				}
+				return "done";
+			}
+
+			@Override
+			protected void done() {
+				Position2D posibleMoves[] = game.getPosibleMoves();
+
+				// the most sophisticated reversi bot
+				int selectedMoveIndex = (int) (Math.random() * (posibleMoves.length));
+				Position2D move = posibleMoves[selectedMoveIndex];
+
+				MoveStatus status = game.playerPutADisc(move.x(), move.y());
+				player1Turn = true;
+				render(status.boardGridCurrentState);
+				if (status.gameIsOver) {
+					GameOver();
+					return;
+				}
+			}
+
+		};
+
+		worker.execute();
 	}
 
 	private void GameOver() {
